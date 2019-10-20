@@ -1,23 +1,32 @@
-public class HashObject<V>{
+package src;
 
-    public int count = 0;
+public class HashObject<T>{
+
+    public int duplicateCount = 0;
     public int probeCount = 0;
-    private int key;
+    private T obj;
 
-    public HashObject(V obj, int key){
-
+    public HashObject(T obj){
+        this.obj = obj;
     }
-    public boolean equals(){
-        return true;
+    public boolean equals(HashObject obj){
+        if(getKey() == obj.getKey()){
+            duplicateCount++;
+            probeCount++;
+            return true;
+        }
+        probeCount++;
+        return false;
     }
     public String toString(){
+        //write output for dumping data into files page 3 of instruction
         return null;
     }
-    public int getKey(){
-        return key;
+    public T getKey(){
+        return this.obj;
     }
     public int duplicate(){
-        return count;
+        return duplicateCount;
     }
     public int probeCount(){
         return this.probeCount;

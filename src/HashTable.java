@@ -1,4 +1,4 @@
-public class HashTable<V>{
+public class HashTable<T>{
 
 
 }
