@@ -2,13 +2,12 @@ public class HashObject<T>{
 
     public int duplicateCount = 0;
     public int probeCount = 0;
-    private int key;
+    private T key;
     private int loadFactor;
 
-    public HashObject(T key, int loadFactor){
-        this.key = Integer.parseInt((String)key);
-        System.out.println(this.key);System.exit(0);
-        this.loadFactor = loadFactor;
+    public HashObject(T key){
+
+        this.key = key;
     }
     public boolean equals(HashObject obj){
         if(getKey() == obj.getKey()){
@@ -24,14 +23,7 @@ public class HashObject<T>{
                 "\n load factor = " + loadFactor + ", Avg. no. of probes " + probeCount;
         return str;
     }
-    public int getKey(){
+    public T getKey(){
         return this.key;
-    }
-    //Do I need these methods
-    public int duplicate(){
-        return duplicateCount;
-    }
-    public int probeCount(){
-        return this.probeCount;
     }
 }

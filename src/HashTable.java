@@ -38,4 +38,6 @@ public class HashTable<T>{
         }
     }
 
+    //create method with two args for hascode evaluation.  Handles both primary and secondary hash
+
 }
