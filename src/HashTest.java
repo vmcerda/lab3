@@ -25,7 +25,7 @@ public class HashTest {
             dataType = "word-list";
         }
 
-        HashTable table = new HashTable();
+
 
     }
 

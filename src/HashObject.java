@@ -2,11 +2,12 @@ public class HashObject<T>{
 
     public int duplicateCount = 0;
     public int probeCount = 0;
-    private T obj;
+    private int key;
     private int loadFactor;
 
-    public HashObject(T obj, int loadFactor){
-        this.obj = obj;
+    public HashObject(T key, int loadFactor){
+        this.key = Integer.parseInt((String)key);
+        System.out.println(this.key);System.exit(0);
         this.loadFactor = loadFactor;
     }
     public boolean equals(HashObject obj){
@@ -19,14 +20,15 @@ public class HashObject<T>{
         return false;
     }
     public String toString(){
-        //Is this right?????
-        String str = "Input " + this.obj.toString().length() + " elements, of which " + duplicateCount +
+        //Is this right, not sure what the Input value needs to be?????
+        String str = "Input " + "??" + " elements, of which " + duplicateCount +
                 "\n load factor = " + loadFactor + ", Avg. no. of probes " + probeCount;
         return str;
     }
-    public T getKey(){
-        return this.obj;
+    public int getKey(){
+        return this.key;
     }
+    //Do I need these methods
     public int duplicate(){
         return duplicateCount;
     }
