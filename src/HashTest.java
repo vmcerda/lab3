@@ -2,30 +2,26 @@ import java.util.Hashtable;
 
 public class HashTest {
 
-    private static int arg2;
-    private static String dataType;
-    private static int debug;
+    private static String dataType,alpha,debug = "";
 
     public static void main(String[] args) {
-        System.out.println(args.length);
+
+        double a = 2;
+        double pwr = 2;
+        System.out.println(Math.pow(a,pwr)%2.5);
+        System.exit(0);
+
         if (args.length < 2) {
             help();
             System.exit(0);
         }
+        dataType = args[0];
+        alpha = args[1];
         if (args.length == 3) {
-            debug = Integer.parseInt(args[0]);
-        }
-        if (args[0] == "1") {
-            dataType = "Integer";
-        }
-        if (args[0] == "2") {
-            dataType = "Long";
-        }
-        if (args[0] == "3") {
-            dataType = "word-list";
+            debug = args[2];
         }
 
-
+        HashTable table = new HashTable(dataType,alpha,debug);
 
     }
 

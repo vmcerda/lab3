@@ -13,7 +13,6 @@ public class HashObject<T>{
     public boolean equals(HashObject obj){
         if(getKey() == obj.getKey()){
             duplicateCount++;
-            probeCount++;
             return true;
         }
         probeCount++;
