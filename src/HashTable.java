@@ -11,7 +11,8 @@ public class HashTable<T>{
     public HashTable(String dataType,String alpha, String debug){
         /* Next step is to create table size using prime values */
         this.alpha = Double.parseDouble(alpha);
-        createPrimeTableSize(95500,96000);
+        PrimeCheck check = new PrimeCheck(95500,96000);
+
         setDataType(dataType);
         ArrayList<T> table = new ArrayList();
         if(!debug.isEmpty()){
@@ -19,9 +20,6 @@ public class HashTable<T>{
         }
     }
 
-    private void createPrimeTableSize(int minSize, int maxSize) {
-
-    }
 
     // Not sure about this....may not need
     private void setDataType(String dataType) { // remove void and add return values for each dataType
