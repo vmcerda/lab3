@@ -1,29 +1,51 @@
-public class HashObject<T>{
+import java.util.Objects;
 
-    public int duplicateCount = 0;
-    public int probeCount = 0;
+public class HashObject<T> {
+
+    private int duplicateCount = 0;
+    private int probeCount = 0;
     private T key;
     private int loadFactor;
 
-    public HashObject(T key){
-
+    public HashObject(T key) {
         this.key = key;
     }
-    public boolean equals(HashObject obj){
-        if(getKey() == obj.getKey()){
-            duplicateCount++;
-            return true;
-        }
-        probeCount++;
-        return false;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HashObject<?> that = (HashObject<?>) o;
+        return Objects.equals(key, that.key);
     }
-    public String toString(){
-        //Is this right, not sure what the Input value needs to be?????
-        String str = "Input " + "??" + " elements, of which " + duplicateCount +
-                "\n load factor = " + loadFactor + ", Avg. no. of probes " + probeCount;
-        return str;
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(key);
     }
-    public T getKey(){
+
+    public String toString() {
+        return String.format("%s %d %d", key.toString(), duplicateCount, probeCount);
+    }
+
+    public T getKey() {
         return this.key;
     }
+
+    public void incDuplicateCount() {
+        duplicateCount++;
+    }
+
+    public int getDuplicateCount() {
+        return duplicateCount;
+    }
+
+    public void incProbeCount() {
+        probeCount++;
+    }
+
+    public int getProbeCount() {
+        return probeCount;
+    }
+
 }

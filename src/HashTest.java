@@ -20,8 +20,10 @@ public class HashTest {
         if (args.length == 3) {
             debug = args[2];
         }
-
-        HashTable table = new HashTable(dataType,alpha,debug);
+        PrimeCheck prime = new PrimeCheck(95500,96000);
+        int size = prime.getPrime();
+        HashTable tableL = new HashTable(size, HashTable.HashType.LINEAR);
+        HashTable tableD = new HashTable(size, HashTable.HashType.DOUBLE);
 
     }
 
