@@ -42,11 +42,15 @@ public class HashTable<T> {
 
     public void add(T obj) {
         HashObject newObj = new HashObject(obj);
-        if (table[hashCode()] == null) {
-            table[hashCode()] = newObj;
-            newObj.incProbeCount();
+        if(newObj.equals(obj)) {
+
         }else{
-            equals(newObj);
+            //You need to check if they equal each other fro duplicates
+            // you're currently just moving to next input location;
+            newObj.equals(obj);
+            newObj.incDuplicateCount();
+            table[newObj.hashCode()+ getIncrement(obj)] = newObj;
+            newObj.incProbeCount();
         }
     }
 }
