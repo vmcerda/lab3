@@ -20,10 +20,6 @@ public class HashTable<T> {
         size = tableSize;
     }
 
-    public void add(T obj) {
-
-    }
-
     private int getIncrement(T obj) { // handling both difference between linear and double hashing
         if (type.equals(HashType.LINEAR)) {
             return 1;
@@ -44,4 +40,13 @@ public class HashTable<T> {
         return initialPosition;
     }
 
+    public void add(T obj) {
+        HashObject newObj = new HashObject(obj);
+        if (table[hashCode()] == null) {
+            table[hashCode()] = newObj;
+            newObj.incProbeCount();
+        }else{
+            equals(newObj);
+        }
+    }
 }
