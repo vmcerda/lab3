@@ -5,6 +5,7 @@ import java.util.Random;
 public class HashTable<T> {
 
     private HashObject<T>[] table;
+    private T[] test;
     private HashType type;
     private int size;
 
@@ -15,9 +16,9 @@ public class HashTable<T> {
 
     public HashTable(int tableSize, HashType hashType) {
 
-        table = (HashObject<T>[]) new Object[tableSize];
+        table = new HashObject[tableSize];
         type = hashType;
-        size = tableSize;
+
     }
 
     private int getIncrement(T obj) { // handling both difference between linear and double hashing
@@ -41,16 +42,31 @@ public class HashTable<T> {
     }
 
     public void add(T obj) {
-        HashObject newObj = new HashObject(obj);
-        if(newObj.equals(obj)) {
-
-        }else{
-            //You need to check if they equal each other fro duplicates
-            // you're currently just moving to next input location;
-            newObj.equals(obj);
-            newObj.incDuplicateCount();
-            table[newObj.hashCode()+ getIncrement(obj)] = newObj;
+        HashObject<T> newObj = new HashObject<>(obj);
+        int initPos = primaryHash(obj);
+        int increment = getIncrement(obj);
+        for(int i = 0; i < table.length;i++){
+            int position = (initPos + i*increment) % table.length;
+            if(table[position] == null){
+                table[position] = newObj;
+                size++;
+                break;
+            }else if(newObj.equals(table[position])){
+                table[position].incDuplicateCount();
+                break;
+            }
             newObj.incProbeCount();
         }
     }
+
+    public float tableRatio(){
+        return size/table.length;
+    }
+
+    public void dump(){
+        //print to a file method
+    }
+
+    //method to get duplicates
+    //method number of probe values / number of objects
 }
