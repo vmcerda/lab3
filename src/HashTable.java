@@ -1,5 +1,8 @@
 import javax.sound.midi.Soundbank;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.reflect.Array;
+import java.math.BigInteger;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,7 +12,9 @@ public class HashTable<T> {
     private final int tableSize;
     private HashObject<T>[] table;
     private HashType type;
-    private int size;
+    private int size = 0;
+    private int numDuplicates = 0;
+    private int numProbes =0;
 
     public enum HashType {
         LINEAR(),
@@ -48,38 +53,60 @@ public class HashTable<T> {
         int initPos = primaryHash(obj);
         int increment = getIncrement(obj);
         for(int i = 0; i < table.length;i++){
-            int position = (initPos + i*increment) % table.length;
+            BigInteger b1,b2,b3,b4;
+            b1 = BigInteger.valueOf(initPos);
+            b2 = BigInteger.valueOf(i * increment);
+            b3 = BigInteger.valueOf(table.length);
+            b1 = b1.multiply(b2);
+            int position = b1.mod(b3).intValue();
+            //int position = (initPos + i*increment) % table.length;
             if(table[position] == null){
                 table[position] = newObj;
                 size++;
+                table[position].incProbeCount();
                 break;
             }else if(newObj.equals(table[position])){
                 table[position].incDuplicateCount();
+                table[position].incProbeCount();
                 break;
             }
-            newObj.incProbeCount();
+            //newObj.incProbeCount();
         }
     }
 
     public float tableRatio(){
-        return size/table.length;
+        return this.size/table.length;
     }
 
-    public void dump(String debug, String dataType, double alpha){
+    public void dump(String debug, String dataType, double alpha) throws IOException {
         //print to a file method
-        if(debug == "0"){
-            System.out.format("A good table size if found %d\n Data source type: " + dataType + "\n\n\n", this.tableSize);
-            System.out.println("Using " + table + "Hashing....");
+        if(debug.equals("1")){
+            //dump into file
+            FileWriter fw = new FileWriter(type.toString().toLowerCase() +"-dump");
+            for(int i=0;i<table.length;i++){
+                fw.write("table[" + i +"]: " +table[i].toString() + "\n");
+            }
+            fw.close();
+
+        }else{
+            System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n\n", this.tableSize,dataType);
+            System.out.format("Using %s Hashing....\n",type.toString());
             System.out.format("Input %d elements, of which %d duplicates\n" +
-                    "load factor = %.2f, Avg. no. of probes %.16f\n\n\n", size,alpha,average());
+                    "load factor = %.1f, Avg. no. of probes %.16f\n\n\n",table.length,duplicateCount(),alpha,average());
         }
     }
     //method to get duplicates
     private int duplicateCount(){
-        return table[0].getDuplicateCount();
+        for(int i = 0 ;i < table.length;i++){
+            numDuplicates += table[i].getDuplicateCount();
+        }
+        return numDuplicates;
     }
     //method number of probe values / number of objects
     private double average(){
-        return table[0].getProbeCount()/size; // needs fixed
+        for(int i = 0 ;i < table.length;i++){
+            numProbes += table[i].getProbeCount();
+        }
+        return numProbes/table.length; // needs fixed
     }
 }

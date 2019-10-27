@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -11,7 +12,7 @@ public class HashTest {
     private static Random rand = new Random();
     private static long longNum;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         if (args.length < 2) {
             help();
@@ -47,6 +48,7 @@ public class HashTest {
                 try {
                     Scanner scanner = new Scanner(new File("word-list"));
                     while (scanner.hasNext() && linearTable.tableRatio() < alpha){
+                        //System.out.println("Ration: " + linearTable.tableRatio());
                         String word = scanner.nextLine();
                         linearTable.add(word);
                         doubleTable.add(word);
