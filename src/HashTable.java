@@ -53,11 +53,11 @@ public class HashTable<T> {
         int initPos = primaryHash(obj);
         int increment = getIncrement(obj);
         for(int i = 0; i < table.length;i++){
-            BigInteger b1,b2,b3,b4;
+            BigInteger b1,b2,b3;
             b1 = BigInteger.valueOf(initPos);
             b2 = BigInteger.valueOf(i * increment);
             b3 = BigInteger.valueOf(table.length);
-            b1 = b1.multiply(b2);
+            b1 = b1.add(b2);
             int position = b1.mod(b3).intValue();
             //int position = (initPos + i*increment) % table.length;
             if(table[position] == null){
@@ -80,6 +80,7 @@ public class HashTable<T> {
 
     public void dump(String debug, String dataType, double alpha) throws IOException {
         //print to a file method
+
         if(debug.equals("1")){
             //dump into file
             FileWriter fw = new FileWriter(type.toString().toLowerCase() +"-dump");
@@ -92,7 +93,7 @@ public class HashTable<T> {
             System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n\n", this.tableSize,dataType);
             System.out.format("Using %s Hashing....\n",type.toString());
             System.out.format("Input %d elements, of which %d duplicates\n" +
-                    "load factor = %.1f, Avg. no. of probes %.16f\n\n\n",table.length,duplicateCount(),alpha,average());
+                    "load factor = %s, Avg. no. of probes %.16f\n\n\n",table.length,duplicateCount(),String.valueOf(alpha),average());
         }
     }
     //method to get duplicates
