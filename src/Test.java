@@ -17,7 +17,7 @@ public class Test {
 //            System.out.println(num);
 //        }
         int n = 95791;
-        int a = n;
+        int a = 0;
         int b = (int)(Math.log(n) / Math.log(2));
         int randNum = rand.nextInt(n - 2) + 2;
         b = b-1; // start on 2nd MSB
@@ -29,17 +29,19 @@ public class Test {
             a = (n >> (b));
             //System.out.println(a%2);
             if(a%2 == 1){
-                if(holdNum == 0) {
-                    holdNum = (((int) ((Math.pow(randNum, 2)) % n) * randNum) % n);
-                }else{
-                    holdNum = (((int) ((Math.pow(holdNum, 2)) % n) * randNum) % n);
-                }
+                holdNum = ((int)(Math.pow(randNum, 2)) % n);
+//                if(holdNum == 0) {
+//                    //holdNum = (((int) ((Math.pow(randNum, 2)) % n) * randNum) % n);
+//                }else{
+//                    //holdNum = (((int) ((Math.pow(holdNum, 2)) % n) * randNum) % n);
+//                }
             }else{
-                if(holdNum == 0){
-                        holdNum = (int)((Math.pow(randNum,2)) % n);
-                    }else {
-                    holdNum = (int) ((Math.pow(holdNum, 2)) % n);
-                }
+                holdNum = ((int)(Math.pow(randNum, 2)) * randNum) % n;
+//                if(holdNum == 0){
+//                    holdNum = (int)((Math.pow(randNum,2)) % n);
+//                }else {
+//                    holdNum = (int) ((Math.pow(holdNum, 2)) % n);
+//                }
             }
             b = b -1;
         }
