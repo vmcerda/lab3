@@ -40,8 +40,8 @@ public class HashObject<T> {
         return duplicateCount;
     }
 
-    public void incProbeCount() {
-        probeCount++;
+    public void incProbeCount(int i) {
+        probeCount += i;
     }
 
     public int getProbeCount() {

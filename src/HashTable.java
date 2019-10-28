@@ -1,11 +1,7 @@
-import javax.sound.midi.Soundbank;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.math.BigInteger;
-import java.sql.SQLOutput;
-import java.util.ArrayList;
-import java.util.Random;
+
 
 public class HashTable<T> {
 
@@ -15,6 +11,7 @@ public class HashTable<T> {
     private int size = 0;
     private int numDuplicates = 0;
     private int numProbes =0;
+    private int totalProbeCount = 0;
 
     public enum HashType {
         LINEAR(),
@@ -33,7 +30,7 @@ public class HashTable<T> {
             return 1;
         }
         //double hashing
-        int secondary = obj.hashCode() % (table.length - 2);
+        int secondary = (obj.hashCode() % (table.length - 2)) + 1;
         if (secondary < 0) {
             secondary += table.length - 2;
         }
@@ -53,29 +50,28 @@ public class HashTable<T> {
         int initPos = primaryHash(obj);
         int increment = getIncrement(obj);
         for(int i = 0; i < table.length;i++){
-            BigInteger b1,b2,b3;
-            b1 = BigInteger.valueOf(initPos);
-            b2 = BigInteger.valueOf(i * increment);
-            b3 = BigInteger.valueOf(table.length);
-            b1 = b1.add(b2);
-            int position = b1.mod(b3).intValue();
+            BigInteger b1,b2;
+            b1 = BigInteger.valueOf(initPos + (i * increment));
+            b2 = BigInteger.valueOf(table.length);
+            int position = b1.mod(b2).intValue();
             //int position = (initPos + i*increment) % table.length;
             if(table[position] == null){
                 table[position] = newObj;
+                table[position].incProbeCount(i+1);
                 size++;
-                table[position].incProbeCount();
                 break;
             }else if(newObj.equals(table[position])){
                 table[position].incDuplicateCount();
-                table[position].incProbeCount();
+                //table[position].incProbeCount(i+1);
                 break;
             }
             //newObj.incProbeCount();
         }
     }
 
-    public float tableRatio(){
-        return this.size/table.length;
+    public double tableRatio(){
+
+        return ((double)this.size/(double)table.length);
     }
 
     public void dump(String debug, String dataType, double alpha) throws IOException {
@@ -85,28 +81,44 @@ public class HashTable<T> {
             //dump into file
             FileWriter fw = new FileWriter(type.toString().toLowerCase() +"-dump");
             for(int i=0;i<table.length;i++){
-                fw.write("table[" + i +"]: " +table[i].toString() + "\n");
+                if(table[i] != null) {
+                    fw.write("table[" + i + "]: " + table[i].toString() + "\n");
+                }
             }
             fw.close();
 
         }else{
-            System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n\n", this.tableSize,dataType);
+            System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n", this.tableSize,dataType);
             System.out.format("Using %s Hashing....\n",type.toString());
             System.out.format("Input %d elements, of which %d duplicates\n" +
-                    "load factor = %s, Avg. no. of probes %.16f\n\n\n",table.length,duplicateCount(),String.valueOf(alpha),average());
+                    "load factor = %s, Avg. no. of probes %.16f\n\n\n",totalProbeCount(),duplicateCount(),String.valueOf(alpha),average());
         }
     }
+
+    private int totalProbeCount() {
+        for(int i = 0 ;i < table.length;i++){
+            if(table[i]!=null) {
+                totalProbeCount += table[i].getProbeCount();
+            }
+        }
+        return totalProbeCount;
+    }
+
     //method to get duplicates
     private int duplicateCount(){
         for(int i = 0 ;i < table.length;i++){
-            numDuplicates += table[i].getDuplicateCount();
+            if(table[i]!=null) {
+                numDuplicates += table[i].getDuplicateCount();
+            }
         }
         return numDuplicates;
     }
     //method number of probe values / number of objects
     private double average(){
         for(int i = 0 ;i < table.length;i++){
-            numProbes += table[i].getProbeCount();
+            if(table[i] != null) {
+                numProbes += table[i].getProbeCount();
+            }
         }
         return numProbes/table.length; // needs fixed
     }
