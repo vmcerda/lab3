@@ -51,10 +51,9 @@ public class HashTest {
                 try {
                     Scanner scanner = new Scanner(new File("word-list"));
                     while (scanner.hasNext() && linearTable.tableRatio() < alpha){
-                        //System.out.println("Ration: " + linearTable.tableRatio());
                         String word = scanner.nextLine();
                         linearTable.add(word);
-                        //doubleTable.add(word);
+                        doubleTable.add(word);
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -65,9 +64,11 @@ public class HashTest {
                 System.exit(0);
             }
             // print statement here with method to grab table values
-        linearTable.dump(debug,dataType,alpha);
-
-
+        if(!debug.equals("1")) {
+            System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n", size, dataType);
+        }
+        linearTable.dump(debug,alpha);
+        doubleTable.dump(debug,alpha);
     }
 
     private static void help() {

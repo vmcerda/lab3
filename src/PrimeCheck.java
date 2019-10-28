@@ -13,9 +13,7 @@ public class PrimeCheck {
         this.minSize = minSize;
         this.maxSize = maxSize;
         rand = new Random();
-        if(findPrime() == 1){
 
-        }
     }
 
     private int findPrime(){
@@ -28,11 +26,10 @@ public class PrimeCheck {
         //int bitLength =Integer.toBinaryString(start).length();
         int b = (int)(Math.log(start) / Math.log(2)); //get's length of binary number
         b = b-1; // start on 2nd MSB
-        int a = 0;
+        while(b >=0){
 
-//        while(b >= 0) {
-//
-//            }
+        }
+
         return 0;// need to change this
     }
 

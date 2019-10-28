@@ -24,11 +24,26 @@ public class Test {
         //msb = (int)(Math.log(n) / Math.log(2));
         //int a = (int)(Math.pow(2, msb));
         //System.out.println(a);
+        int holdNum = 0;
         while (b >= 0) {
             a = (n >> (b));
-            System.out.println(a%2);
+            //System.out.println(a%2);
+            if(a%2 == 1){
+                if(holdNum == 0) {
+                    holdNum = (((int) ((Math.pow(randNum, 2)) % n) * randNum) % n);
+                }else{
+                    holdNum = (((int) ((Math.pow(holdNum, 2)) % n) * randNum) % n);
+                }
+            }else{
+                if(holdNum == 0){
+                        holdNum = (int)((Math.pow(randNum,2)) % n);
+                    }else {
+                    holdNum = (int) ((Math.pow(holdNum, 2)) % n);
+                }
+            }
             b = b -1;
         }
-        //System.out.println(msb);
+        System.out.println(randNum);
+        System.out.println(holdNum);
     }
 }

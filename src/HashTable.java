@@ -34,7 +34,7 @@ public class HashTable<T> {
         if (secondary < 0) {
             secondary += table.length - 2;
         }
-        return secondary + 1;
+        return secondary;
     }
 
     private int primaryHash(T obj){
@@ -74,7 +74,7 @@ public class HashTable<T> {
         return ((double)this.size/(double)table.length);
     }
 
-    public void dump(String debug, String dataType, double alpha) throws IOException {
+    public void dump(String debug, double alpha) throws IOException {
         //print to a file method
 
         if(debug.equals("1")){
@@ -88,10 +88,11 @@ public class HashTable<T> {
             fw.close();
 
         }else{
-            System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n", this.tableSize,dataType);
+
+            //System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n", this.tableSize, dataType);
             System.out.format("Using %s Hashing....\n",type.toString());
             System.out.format("Input %d elements, of which %d duplicates\n" +
-                    "load factor = %s, Avg. no. of probes %.16f\n\n\n",totalProbeCount(),duplicateCount(),String.valueOf(alpha),average());
+                    "load factor = %s, Avg. no. of probes %.16f\n\n\n",size + duplicateCount(),numDuplicates,String.valueOf(alpha),average());
         }
     }
 
@@ -120,6 +121,6 @@ public class HashTable<T> {
                 numProbes += table[i].getProbeCount();
             }
         }
-        return numProbes/table.length; // needs fixed
+        return numProbes/(double)size; // needs fixed
     }
 }
