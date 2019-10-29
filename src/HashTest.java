@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -27,13 +29,12 @@ public class HashTest {
         int size = prime.findPrime();
         if(size != prime.findPrime()){
             System.out.println("No Prime Number found");
+            System.exit(0);
         }
         HashTable linearTable = new HashTable(size, HashTable.HashType.LINEAR);
         HashTable doubleTable = new HashTable(size, HashTable.HashType.DOUBLE);
-        // Should I do this with my while loop.  I feel that only do it once is better then repeated //
             if (dataType.equals("1")) {
                 dataType = "Integer";
-                //Integer object using Random integer is created using nextInt()
                 while(linearTable.tableRatio() < alpha) {
                     randNum = rand.nextInt();
                     linearTable.add(randNum);
@@ -48,8 +49,6 @@ public class HashTest {
                     doubleTable.add(longNum);
                 }
             } else if (dataType.equals("3")){
-                dataType = "word-list";
-                //Contains a word from the list /home/JHyeh/cs321/lab/lab3/files
                 try {
                     File file = new File("./word-list");
                     Scanner scanner = new Scanner(file);
@@ -66,7 +65,6 @@ public class HashTest {
                 help();
                 System.exit(0);
             }
-            // print statement here with method to grab table values
         if(!debug.equals("1")) {
             System.out.format("A good table size is found: %d\nData source type: %s" + "\n\n", size, dataType);
         }
