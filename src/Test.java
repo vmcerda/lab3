@@ -6,26 +6,27 @@ public class Test {
 
     public static void main(String[] args) {
         Random rand = new Random();
-        int n = 95791;
-        int b = (int)(Math.log(n) / Math.log(2) + 1) -1;
-        //int randNum = rand.nextInt(n - 2) + 2;
-        int randNum = 13;
-        BigInteger holdNum = new BigInteger(Integer.toString(randNum)); //Holding randNumber so it can change after 1 or 0;
-        BigInteger b1 = new BigInteger(Integer.toString(n)); // Holding table length;
-        BigInteger b2 = new BigInteger(Integer.toString(randNum)); //Holding randNumber to be used consistently in equation
-//        BigInteger holdNum = new BigInteger(("0"));
-        while (b >= 0) {
-            int a = (n >> (b));
-            if(a%2 == 1){
-                holdNum = holdNum.pow(2).multiply(b2).mod(b1);
-//                holdNum = (((int) ((Math.pow(randNum, 2)) % n) * randNum) % n);
-//                holdNum = (((int) ((Math.pow(holdNum, 2)) % n) * randNum) % n);
-            }else{
-                holdNum = holdNum.pow(2).mod(b1);
-                //holdNum= ((int)(Math.pow(holdNum, 2)) % n);
+        int p = 95785;
+        int lastPrime = 0;
+        for(int a = 95785; a <= 96000;a++){
+            int randNum = rand.nextInt(a - 2) + 2;
+            int num = randNum;
+            String binary = Integer.toBinaryString(a-1);
+            for(int x = 1; x <= binary.length()-1;x++){
+                if(binary.charAt(x) == '0'){
+                    num = (int)(Math.pow(num,2)% a );
+                }else{
+                    num = (int)(((Math.pow(num,2))*randNum)%a);
+                }
             }
-            b = b -1;
+            if(num == 1) {
+                if (lastPrime == a - 2) {
+                    System.out.println(lastPrime);
+                } else {
+                    lastPrime = a;
+                }
+            }
+
         }
-        System.out.println(holdNum.toString());
     }
 }

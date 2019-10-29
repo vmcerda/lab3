@@ -24,8 +24,10 @@ public class HashTest {
             debug = args[2];
         }
         PrimeCheck prime = new PrimeCheck(95500, 96000);
-        //int size = prime.getPrime();
-        int size = 95791;
+        int size = prime.findPrime();
+        if(size != prime.findPrime()){
+            System.out.println("No Prime Number found");
+        }
         HashTable linearTable = new HashTable(size, HashTable.HashType.LINEAR);
         HashTable doubleTable = new HashTable(size, HashTable.HashType.DOUBLE);
         // Should I do this with my while loop.  I feel that only do it once is better then repeated //
@@ -49,7 +51,8 @@ public class HashTest {
                 dataType = "word-list";
                 //Contains a word from the list /home/JHyeh/cs321/lab/lab3/files
                 try {
-                    Scanner scanner = new Scanner(new File("word-list"));
+                    File file = new File("./word-list");
+                    Scanner scanner = new Scanner(file);
                     while (scanner.hasNext() && linearTable.tableRatio() < alpha){
                         String word = scanner.nextLine();
                         linearTable.add(word);

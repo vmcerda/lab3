@@ -69,9 +69,7 @@ public class HashTable<T> {
         }
     }
 
-    public double tableRatio(){
-
-        return ((double)this.size/(double)table.length);
+    public double tableRatio(){return ((double)this.size/(double)table.length);
     }
 
     public void dump(String debug, double alpha) throws IOException {
